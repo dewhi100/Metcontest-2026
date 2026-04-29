@@ -1,4 +1,5 @@
 A vanilla project in SMART XML.
+
 Includes a slew of ASM resources which *should* all be compatible with each other.
 Some (those which modify pause screens or HUD gfx) will need those gfx applied through SMART. 
 (Which is easier if you decide to do it at the beginning of the project).
