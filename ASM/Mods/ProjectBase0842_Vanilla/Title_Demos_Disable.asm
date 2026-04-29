@@ -1,0 +1,7 @@
+;DISABLE TITLE SCREEN DEMOS
+
+lorom
+
+org $8B9F29
+
+DB $AD

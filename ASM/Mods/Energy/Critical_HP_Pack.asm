@@ -1,0 +1,5 @@
+incsrc "NerdHealthAlarmRevamp - Dewhi Copy.asm"		;adjusts the critical HP threshold dynamically.	(Nerd)
+incsrc "Charge Heal dewhi100.asm"					;heals you up to just below ciritcal			(Dewhi, based on Crashtour and Flamestar)
+incsrc "../Beams/RedBeamsLowHP.asm"					;colors your beams red while in critical HP		(Dewhi)
+incsrc "NerdPowerRush.asm" 							;doubles damage while critical					(Nerd)
+incsrc "Node Death Forgiveness.asm"					;survive one-shot damage if above critical HP	(Node)

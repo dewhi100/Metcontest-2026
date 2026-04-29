@@ -1,0 +1,43 @@
+map + cannon broken palette
+
+8598f8 sta $c400 a = 88
+
+91DD84 not called at the right times when map patch. for some reason
+
+working:
+when shoot 	91DD84 ^ 91df0c ^ 91d79e ^ 91d708 ^ 90e749 ^828b69 ...
+after shoot 91DD84 ^ 91d71e ^ 90e749 ^ 828b69
+
+
+
+at 91ddc0, different values.
+working: 	1104
+broke:		203C
+
+broken reading from 9bd000
+working reading from 
+
+broken:
+
+[DEBUG]   bank cannon palette: 9BD000
+[DEBUG]   NeutralSetup:91DD84
+[DEBUG]   BCP: 9BD000
+[DEBUG]   BCP math: 9BD000
+[DEBUG]   TargetSetup:91DDC0
+[DEBUG]   BCP: 9BD000
+[DEBUG]   BCP math: 9BD000
+
+working:
+
+[DEBUG]   bank cannon palette: 9BD000
+[DEBUG]   NeutralSetup:91DD84
+[DEBUG]   BCP: 9BD000
+[DEBUG]   BCP math: 9B0000
+[DEBUG]   TargetSetup:91DDC0
+[DEBUG]   BCP: 9BD000
+[DEBUG]   BCP math: 9B0000
+
+9BD000
+9BD000
+
+sonmething to do with math rounding... but thsts not being set??

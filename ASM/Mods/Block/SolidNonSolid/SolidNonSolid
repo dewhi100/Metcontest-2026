@@ -1,0 +1,79 @@
+lorom
+
+;Variable solid + non-solid blocks by Scyzer: disassembly 
+
+org $949045
+dw $c7dc, $c7e7
+
+org $9498c6
+dw $c7f2, $c7f9
+
+org $94a189
+dw $b1bf
+
+org $94a1a9
+dw $b1bf
+
+org $94b19f ;freespace up to 94c800
+
+dw $b1d8 #D ;d in hex... or is it 13 decimal
+dw $b1cf, $b1da, $b1d8
+
+LDX $0DC4 : LDA $7F6402,x
+AND #$00FF : ASL : TAX
+JSR $B19F : RTS
+LDA  09E6 : bit #$8000
+CLC : BNE + : SEC
++ RTS
+LDA 09E6 : bit #$8000
+CLC : BEQ + : SEC
++ RTS
+
+warnpc $94C7DC
+
+org $94C7DC
+LDA $09E6
+BIT #$8000
+BEQ +
+PLA
+CLC
++ RTS
+LDA $09E6
+BIT #$8000
+BNE +
+PLA
+CLC
++ RTS
+LDA #$8000
+TSB $09E6
+RTS
+LDA #$8000
+TRB $09E6
+RTS
+
+warnpc $94C800
+
+org $A0C2CC
+JSR $C2DA,x
+RTS
+LDA #$D094
+JSL $8484E7	;spawn plm
+CLC
+RTS
+DB $00
+DW $C2BE #D
+DW $F7D3, $F7DE, $C2D0
+
+org $A0F7D3	;freespace bank a0
+LDA $09E6
+BIT #$8000
+SEC
+BEQ +
+CLC
++ RTS
+LDA $09E6
+BIT #$8000
+SEC
+BNE +
+CLC
+RTS

@@ -1,0 +1,1 @@
+In order to get the elevator enemy now working, you'll have to add these two files in your project folder->export->enemies

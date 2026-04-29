@@ -1,0 +1,9 @@
+Super Metroid (JU) \[\!\].sfc
+RefreshRom.bat
+quickmet.xml
+ASM/dll/bindings/python/asar.py
+ASM/dll/bindings/c_sharp/asar.cs
+ASM/dll/bindings/c/asardll.h
+ASM/dll/bindings/c/asardll.c
+ASM/dll/asar.dll
+ASM/asar.exe

@@ -1,0 +1,67 @@
+Accel Charge by JAM
+===================
+Version 0.9
+
+A special item that will decrease charging time for your arm cannon. A replica from Other M. Please give credit, if you use it.
+
+
+RAM usage: 		7E:D860: 00000xxx
+Message usage:		1D
+Free space usage:	2787E..278D4; 87C00..87C45; 87C80..87C8A; 5F770..5F77C
+Graphic pointer usage:	49300
+
+
+Warning
+=======
+This is an unfinished version. Altering charging time is working fine, but sparks coming out of your cannon aren't tweaked yet. Use it at own risk (read: on clean ROM just to test).
+
+
+This patch contains:
+===================
+1. Index file (Accel Charge.txt)
+2. Main code file (AccelCharge09.IPS)
+3. Message file (AccelChargeMessage.asm)
+4. Files in PLMs folder (F87E.gif and F87E.txt)
+
+
+How it works
+============
+After obtaining Charge Beam, you can charge your beam very slowly. After collecting each Accel Charge item, the charging time will decrease in this order:
+
+Amount	Time to charge (s)
+------	------------------
+0	2.00
+1	1.75
+2	1.50
+3	1.25
+4	1.00
+5	0.75
+>5	0.50
+
+Bomb Spread attack timer and Pseudo Screw Attack timer are tuned to amount of Accel Charge items. 
+
+Now all collected items will alter percantage!
+
+
+
+How to use it
+=============
+0. Read this doc carefully (especially, the warnings part).
+1. Check for data in your ROM, located at addresses, mentoined above. If there aren't FF's, it willn't be safety to use this patch, as it may overwrite data.
+2. If everything is OK, patch your ROM with IPS flie.
+3. Alter ASM file, you have already used messages with new indexes. Alter message usage for this item too.
+4. Apply ASM file to your ROM.
+5. Place all files from PLMs folder in this archive to "files/PLM/" folder inside your SMILE folder to be able to place this item in game.
+
+
+Tweaking
+========
+To change message number, used for this item, jump to 27877 and change 1D to whenever you want.
+
+To change pointer to graphics of item, jump to 27884 and change 00 93 to everything you want.
+
+
+Credits
+=======
+Kejardon for his awesome RAMMap, in which unused RAM address was found.
+Grime for his fanstastic Hex Tweaks, in which needed hijack points were found.

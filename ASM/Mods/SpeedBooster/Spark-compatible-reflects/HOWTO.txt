@@ -1,0 +1,10 @@
+for both versions, do the same thing.
+
+for SMART users:
+add patches to ASM folder-> apply patches
+In the enemy DNA editor:
+Set the "Touch AI" of the reflect enemy to the lower 2 bytes of the freespace in bank $A3
+the grapple AI will be told by the terminal when applying the patches (make sure to set logging mode to debug)
+
+For SMILE users:
+Apply the ASM patches 

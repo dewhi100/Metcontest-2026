@@ -1,0 +1,194 @@
+This guide will take you through the steps o how to add a new item to the equipment screen using this alternative equipment screen patch.
+
+This guide expects a decent understanding of ASM,the usage of labels, pointers and the snes tilemap format.
+(If you're gonna be adding a new item yourself it's same to assume you're at a decent level already.
+
+Now, let's begin by explaining the most important ways that the equipment screen works.
+
+Part 1: The data organization.
+The most important RAM address for the equipment screen is $0755
+This value represents the combination of the currently selected category in the equipment screen, and the currently selected item within that category
+Here's an overview of all possible values in vanilla:
+$0755(category part)
+$00= tanks (this one has stayed relatively untouched in this patch)
+$01 = weapons
+$02 = suits/misc
+$03 = boots
+
+$0756 (item part)
+
+Tanks:
+$00 = settings
+$01 = drain energy
+
+Weapons:
+$00 = charge
+$01 = ice
+$02 = wave
+$03 = spazer
+$04 = plasma
+
+Suits/misc:
+$00 = varia
+$01 = gravity
+$02 = morph
+$03 = bombs
+$04 = spring ball
+$05 = screw attack
+
+Boots:
+$00 = hijump
+$01 = spacejump
+$02 = speedbooster
+
+
+These index combinations are used to lookup the correct value for the current selection in some data tables located at $C02C in vanilla
+The Main data table tells us where to read/lookup from per category
+The corresponding arrays tell us where to look per item within the corresponding category
+(in this patch, the main data table is at line 477)
+
+The first table is a list of pointers to the RAM offsets per category:
+-The corresponding label is an array, with each RAM offset per item
+The RAM offset tells the game where to draw the tilemap of this item
+
+The next table is a list of pointers to all bitmasks per category
+-The bitmasks represent which bit of the collected items/beams the current selected item represents
+
+Then there's a table of bitsets:
+-This one tells us which RAM address to read from when checking if an item is equipped 
+
+Then there's a table of collected bitsets: (this is a new one that I added)
+-This one tells us which RAM address to read from when checking if an item is collected 
+
+The last one is a list of pointers to a list of tilemap pointers per category
+-The corresponding list tells us the tilemap to write for for each item
+
+Lastly, when drawing the item selector, the same system is used, but instead a pair of X/Y coordinates is used in order to know where to draw the item selector.
+
+This patch adds an extra data table in order to figure out what to do when moving around in each category.
+-Vanilla is simpler bc you either move down/up, or you exit the category
+
+This patch allows movement in all directions, so a more complex routine is used, but the advantage is that it can be reused for each category.
+
+The next data can be found below.
+First, a list for all tables per category
+Each list is a pointer to what i'll call a "index queue" per item/direction combo.
+Basically, when you press in a direction when on an item, it does the following:
+
+-It looks up the index queue for that item/direction
+-For each index in the index queue, it checks if the item is collected
+-if succesful, it sets the item index to that
+-if unsuccesful, it keeps traversing the list
+
+There are two ways to end an index queue:
+-either a terminator ($8000)
+-Or an exit option
+
+terminator means that you do nothing if you haven't found anything
+
+exit option means you need to try to go to a different category
+Each category has two different exit options:
+
+Beams:
+1-Try to move to reserve tanks
+2-Try to move to suits/misc (if can't, try to move to boots)
+
+Suits/Misc:
+1-Try to move to reserve (if can't, try to move to beams)
+2-Try to move to boots
+
+Boots:
+1-Try to move to beams(if can't move to reserves)
+2-Try to move to suits/misc
+
+
+Was all of that very confusing? then let's try it with a few examples:
+
+line 633:
+pointers to the index queue pointers per item
+gravityIndexes is the second one
+line 649:
+Pointers to the queue index for each direction
+(order: right, left, down, up)
+First, let's look at Gravity_Right:
+Tries to select screw attack (bc it is to the right of gravity), if unsuccesful, it does nothing.
+
+Now let's look at Gravity_left:
+If you press left, first it tries to select varia suit, and if that fails, it tries to move to reserve mode
+
+Now, let's look at Gravity_down:
+It searches the Misc section of items, from right to left, and if all fail, it tries to move to boots
+
+Finally, let's look at Gravity_Up
+As you can see it doesn't exist, it's commented out, and in the list it's been replaced by Cancel
+This is bc there's a few entries that do nothing for a certain direction, always (pressing up with gravity suit does obviously nothing)
+So to save space, all entries that do nothing have the same pointer.
+
+A different example:
+Line 611
+Spazer_right:
+First it tries to select plasma beam, if unsuccesful, it tries to select ice, then wave, and otherwise it tries to move to misc.
+
+This sytem allows any item to function normally, in any direction, for any combination of collected/uncollected items.
+
+
+----------------------------------------------
+
+Part 2: Adding the item itself
+
+We're gonna be adding an example item to the equipment screen in this guide to help you understand.
+I recommend you take Pause Menu-Tutorial and step through this whilst looking at both.
+The file has markings at where each step is performed.
+In this example, I'm gonna add the boostball to the "Suits/misc" category.
+
+Step 0:
+first of all, add some graphics to the pause menu. this is the easiest step, and hopefully the most obvious one.
+I haven't added any in here, but let's, for practical purposes, assume we did.
+I've added 4 tiles for the "boostball" item.
+Let's say the 4 tiles I've added are tiles $0128,$0129,$0138,$0139 in the pasue menu gfx.
+
+Step 1:
+Add a tilemap for the item in the tilemap list (line 512)
+
+Step 2:
+Add a pointer to said tilemap in the pointer list of the suits/misc category (line 570).
+We see it's the 7th item in the list, so the corresponding index is $0006, (bc the first index of a list is always $0000)remember that!
+
+Step 3:
+Add a RAM offset so the game knows where to paste the tilemap (line 557)
+(Tip: In order to move down one tile: +$80, to move up: -$80,to move right: +$4,to move left: -$4)
+
+Step 4:
+Add a Bitmask for the item (in suits/misc, it's from $09A4, collected items)(line 538)
+(In vanilla $0010 is unused, so we'll assume that that's the boostball bitmask)
+
+Step 5:
+Add a pointer queue for each direction when boostball is selected
+5.1 Add a pointer to the index queues pointer (line 670)
+5.2 add the index queue pointers(line 749)
+In this example, boostball is right under screw attack in the equip screen.
+-So moving right, boostball shouldn't ever do anything, so for the first entry, we place cancel immediatelly.
+-Moving left, we try to go to springball,bombs,morph, and else we try to go to reserve tanks
+-Moving down we see we should try to go to boots immediatelly, so we place Option2 (Option2 in suits/misc means go to boots)
+-Moving up we try to go to Screw attack,gravity suit,spring ball, varia suit, bombs, morph ball and else we give up.
+
+Step 6:
+At the top of the file, change the define !SuitsMiscItemsCount to #$0007, as there are now 7 items in the suits:misc category
+-Suggestion: Add a define to the defines below with the boostball index ($0600), I've done it here bc it's easier that way, but feel free to do what you want.
+
+Now, boostball should be working in the equip screen (albeit without any actual graphics)
+
+But! there are a few things missing.
+
+Exercise:
+Change the index queues of the other items in the pause screen to be able to access the boostball item
+(Hint: you'll have to change the some queue indexes of all items in the suits/misc category, but not in other categories).
+
+Also add a pair of coordinates of where one needs to draw the selectors (bottom of the file)
+
+
+
+That's all! Hope this works out!
+If you have any questions/issues, feel free to ask me.
+
+You can find me on the metroid construction discord, or on the forums (but i'm not really active there, at all).

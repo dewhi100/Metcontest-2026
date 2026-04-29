@@ -1,0 +1,14 @@
+Variable Solid / Non-Solid Blocks
+Made by SadiztykFish
+
+Fool Xray BTS $0D		- Set all [Spike BTS $0D] blocks to non-solid, [Spike BTS $0E] to solid
+Fool Xray BTS $0E		- Set all [Spike BTS $0D] blocks to solid, [Spike BTS $0E] to non-solid
+Spike BTS $0D		- Solid by default
+Spike BTS $0E		- Non-solid by default
+
+
+When you touch either a Fool Xray block with BTS of $0D or $0E, all Spike blocks of the corresponding BTS become non-solid, and the other solid.
+Enemies and projectiles also follow the solid/non-solid block collisions
+The block tangibility is saved when you save game, so if Spike BTS $0D is set to non-solid when you save the game, when you load, it will still be non-solid.
+
+Look at the image of how I made the pipe structure as an example

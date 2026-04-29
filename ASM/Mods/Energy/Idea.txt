@@ -1,0 +1,92 @@
+Critical health threshold increases as you gain e tanks. (10% of max? 30? 25? 25% is easy math) (nerd)
+damage doubled while in critical (nerd power rush)
+stand still + full charge to heal up to max critical hp (webbros/crashtour/flamestar)
+hud flashes critical (flamestar)
+if you would be hit into critical from more than critical, you only get sent to max critical. (node death forgiveness)
+override beam palette + add outline (red) while critical (oi27 outkline)
+use same red color for "critical" warning on hud?
+
+Critical HP = ((Max hp + 1) / 4) - 1	;24, 49, 74, ...
+can simply shift twice, and cmp to current.
+if negative, means we were greater than (1/4)-1
+so have:
+LDA maxHP : CLC : LSR : LSR : CMP currentHP : BPL + : RTS + [we are in critical]
+
+used to:
+ -trigger palette
+ -trigger hud flash
+ -trigger outline
+ -check for charge heal
+ -double damage output (separate check)
+ -survive big hit (separate check when taking damage)
+
+
+$90:ACF0 load beam palette external		after grapple?
+;; Parameters:
+;;     A: Equipped beams
+
+$90:ACC2: Load beam palette (external)		after crystal flash
+;; Parameters:
+;;     A: Equipped beams
+
+$90:ACFC load beam palette		main?
+;; Parameters:
+;;     A: Equipped beams
+
+$90:ACCD load beam palette
+; Parameters:
+;;     Y: Beam type * 2 (without the charge beam bit)
+
+;;;90C3E1: Beam palettes ;;;
+
+$90:C3E1             dw 3800,7FFF,19FF,1D55,10AD,53FF,039E,295F,18DF,0000,0000,0000,0000,0000,0000,104A ; Power
+$90:C401             dw 3800,7FFF,7EC0,6DE0,54E0,7F6E,730A,6665,5E22,7FA0,7B60,7720,72A0,6E60,7F91,20C0 ; Ice
+$90:C421             dw 3800,7FFF,7C1F,5816,300C,7EDF,7DDF,7CDF,681A,0000,0000,0000,0000,0000,0000,2409 ; Wave
+$90:C441             dw 3800,7FFF,3BE0,2680,1580,6BFA,4BF2,2BEA,03E0,0000,0000,0000,0000,0000,0000,0920 ; Plasma
+$90:C461             dw 3800,7FFF,03FF,0216,00EE,6BFF,4BFF,2BFF,037B,0000,0000,0000,0000,0000,0000,00AD ; Spazer
+
+;;; $C3C9: Beam palette pointers ;;;
+{
+$90:C3C9             dw C3E1, ; 0: Power
+                        C421, ; 1: Wave
+                        C401, ; 2: Ice
+                        C401, ; 3: Ice + wave
+                        C461, ; 4: Spazer
+                        C421, ; 5: Spazer + wave
+                        C401, ; 6: Spazer + ice
+                        C401, ; 7: Spazer + ice + wave
+                        C441, ; 8: Plasma
+                        C441, ; 9: Plasma + wave
+                        C401, ; Ah: Plasma + ice
+                        C401  ; Bh: Plasma + ice + wave
+
+0000 plasma spazer ice wave
+
+;;; $F63A: Free space ;;;
+
+add a palette, add a pointer. and if critical, LDA (pointer - c3c9) instead of beams
+
+red/pink flash palette
+DW $4487,$7FFF,$001F,$081A,$0016,$679F,$4F3F,$36BF,$159F,$0303,$0303,$0303,$0303,$0303,$0303,$000C
+
+$90:F4F2 AD A6 09    LDA $09A6  [$7E:09A6]  ;\
+$90:F4F5 22 F0 AC 90 JSL $90ACF0[$90:ACF0]  ;} Load current beam palette
+
+$91:E68D A9 02 00    LDA #$0002             ;\
+$91:E690 22 F0 AC 90 JSL $90ACF0[$90:ACF0]  ;} Load ice beam palette
+
+given that we want A or Y, but want to test critical hp:
+PHA : LDA $0A6A : BEQ + 
+PLA : LDA [offset]
+BRA ++
++
+PLA
+++
+...continue
+
+or do that with y
+
+$90:ACFC 29 FF 0F    AND #$0FFF		(A is beams, they are masking charge)
+$90:ACCD A9 90 00    LDA #$0090		(y is beam type * 2)
+
+;;; $E9CE: Handle periodic damage to Samus ;;;

@@ -1,0 +1,41 @@
+fx overhaul
+the issue: rooms + asm not the same as applying IPS
+rooms + asm is broke
+
+diffs: rooms ofc. and checksum
+and...
+@1b146 -> $83:B146 in the middle of a bunch of FF
+
+freespace starts $83AD66
+
+the atch is correct in that it doesnt mismatch. but it isnt enough. either more code needs added or more data in project
+
+okay so the updated rooms point at freespace i guess. which is set by patch. its messy.
+
+but i dont think ASM alone would cause that to be a problem
+
+anyway there is a worse issue.
+it crash when added into the mix
+
+fx + flexglow crashes? maybe?
+
+when flexglow has defaults flag enabled.
+
+not using default glows: 
+
+works when files are separate but not when in one.
+
+doing a diff between "in same asm" vs "as separate asms"
+
+298d5
+
+85:98d5 same file: 1c; diff files: 04
+
+freespace is $859643
+
+STA $18, JMP 9843, and then we get to 9643
+
+1c = TRB ??? 04 = TSB
+
+its that damn ASAR 1.9 line
+

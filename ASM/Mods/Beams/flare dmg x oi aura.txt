@@ -1,0 +1,4 @@
+oi aura x flare dmg
+oi aura x flare dmg
+
+silly, i forgot to reallocate freespace in the oi code
