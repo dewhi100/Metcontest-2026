@@ -1,0 +1,36 @@
+Electrolysis:
+Instead of reserves, you collect electrolysis tanks. they gradually fill with air while underwater.
+Air is used for bursts of movement, or to mitigate underwater physics.
+
+hold run to give yourself normal or semi-normal physics
+if spinjumping, tapping jump lets you spinjump again. dread style
+holding jump pushes you upwards like gravity boost in echoes.
+as a morph ball, you gain a buoy effect on the water's surface
+as morph ball, springball works, but costs air
+as morph ball, you can hammerball by tapping jump while falling
+
+
+creating air tanks:
+disable interaction with crystal flash?
+turn off energy drops refilling? or not?
+need to turn off interaction on the equip screen
+need to turn off auto refilling at 0 energy
+change HUD "auto" arrow to represent amount of air (not strictly needed)
+add a passive recharge underwater and full charge in air
+charge beam adds to recharge?
+
+$09D4: Samus max reserve health
+$09D6: Samus reserve health
+https://metroidconstruction.com/resource.php?id=249 Extended reserve cache by Phospho
+$82AC8B: Equipment screen - main - tanks - d-pad response ;;; lots of reserve screen code follows
+game state 18h: reserve auto refilling health.
+$0998: Game state
+$82:DB73: triggers automatic refill if at 0 hp. branch to d895 to skip
+$82:B442: moves to the reserves section of equip screen if max reserves > 0. branch to b454 to skip
+
+Dividing 100, 200, etc. by 32 (5 LSRs) ends up giving 3, 6, 12, etc. it's cheaper than division.
+so every frame (maybe), increment reserves up to max
+.also, no need to have multiples of 100. could be 64 or 128
+
+hijack can be in the automatic refill check, as long as its before the 0hp check.
+
