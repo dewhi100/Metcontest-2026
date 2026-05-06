@@ -1,0 +1,61 @@
+if youre falling in water, holding jump pushes you up.
+
+
+$09B4: Jump binding
+
+$8B: Controller 1 input ($4218)
+
+$0A1C: Samus pose. See "Pose definitions.asm"
+$0A1F: Samus movement type. See "Pose definitions.asm"
+	2: jumping (falling downwards after a jump still counts! if you are in the air as the result of jumping, you are jumping!
+	6: falling
+
+$0AD2: Liquid physics type
+        0: Air
+        1: Water
+
+$0B2C: samus y subspeed
+$0B2E: samus y speed
+$0B32: samus y subacceleration
+$0B34: samus y subacceleration
+$0B36: samus y direction
+	0:none
+	1:up
+	2:down
+
+
+$90:9C5B: Determine Samus Y acceleration
+90:$9EA3
+90:$9EA9 
+
+90$90C4: Check if Samus has started falling ;;;
+90$90E2: Samus Y movement - with speed calculations ;;;
+
+$90:8FF9 sets samus y as down when jumping.
+
+
+in 909c5b routine:
+	check if samus is falling. check if jump is held.
+	we aleady know we are in suitless physics.
+	if conditions are met, set samus y direction to up. otherwise, set it to down.
+
+$90:9C91 hijack point (LDA $9EA3)
+
+nope, because it gets reset by 90$90C4.
+
+hijack there,
+
+nah, use both. set a special value in the first code. then check it in the next code, to fool the game
+
+value 3- boost. but now need to check whether that breaks other things.
+seems safe. control passes directly from 9c91 to 90c7 to 90e2 without touching 0b36
+
+sadly, you are movement type "jumping" even after you start falling and even if youve let go.
+more checks needed. sadly.
+
+if im moving down, it means i passed the peak of my jump.
+
+if im movign up, i may be boosting or i may be doing the initial jump.
+
+maybe... do check for down, and do set to boost (3) and in movement code, read the 3, set it to 2, but fake a 1
+

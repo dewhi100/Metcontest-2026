@@ -1,7 +1,37 @@
 The setup: Samus is crashed into an ocean planet.
-Act 1: the reef. Focus on movement and the upward climb to the surface. coral and ship pieces. toxic coolant leaks?
-Act 2: the island. A short dry land section. use fusion TRO maybe mixed with arboretum? a poisonous atmosphere?
-Act 3: the descent. focus on collecting depth upgrades. use mossy grotto by zeni
-Act 4: the abyss. Hot water. A draygon fight seems boring. perhaps a magma kraid? use the phendrana tileset.
-Escape: all the way to the surface, and steal a ship.
+
+Start in a flooded ship, and descend through more and more decrepit past wrecks all pancaked on top of each other.
+Includes a pirate ship which crashed at the same time as you.
+Deep down under all the wreckage is bona fide ruins and the "Atlantis Magnet" that's keeping you here.
+
+
+
+Electrolysis:
+
+Gradually gain oxygen reserves while underwater. Or instantly while in air.
+The more tanks you collect, the faster you charge.
+
+What costs Oxygen?
+
+Breathing- 
+	with one tank, it cancels out underwater generation. (but you can still breathe)
+	in deep water, it costs double (enough to drain a single tank, or cancel two tanks)
+
+Suitless Space Jump
+Gravity Boost
+Buoy ball
+Hammerball
+Dash
+Pseudogravity effect
+
+
+breathing: run out of air, and you take damage.
+Samus' suit has a built in air reserve, but doesn't replenish O2.
+You have a timer before you start to take damage.
+One electolysis tank increases suit capacity and is enough to offset breathing.
+Even if you are at zero storage, you don't drown as O2 is keeping up with you.
+You just cant vent any for tricks.
+At two tanks and up, the O2 generation is a net positive.
+In deep water, breathing cost doubles. One tank is not enough to stop you from suffocating.
+Two will keep up with you.
 

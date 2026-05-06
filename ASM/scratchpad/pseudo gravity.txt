@@ -1,0 +1,76 @@
+if holding run while suitless, fake air physics
+
+$0AD2: liquid type
+	0 air
+	1 water
+
+$8B controller input
+
+$09B6: Run binding
+
+ $09A2: Equipped items
+	0020: gravity
+
+when youre about to set physics to water:, instead check the run button. if held, and gravity is not equipped, set to air instead
+
+hijack point: $90:8E5D (normally loading water setting)
+problem: liquid type only set when entering or leaving liquid. so needs to be more personal
+
+search for bit #$0020
+
+passive:
+
+90ecb6- suit palette
+909c5b determine y accel
+908198- spawn bubbles
+
+when walking:
+
+91fb0e- sets animation/pose
+909741- extra x speed running
+909bd4- x speed table indexing
+
+jumping:
+
+91fb0e - spinjump related
+9098c2 - initial jump speed
+
+should revert movement speed to capped water when releasing run. apparently vanilla doesnt revert speed until you stop moving
+
+$90:9766 (LDA $197E)
+hijack
+
+freespace:
+if run not held, stz extra speed and sub extra speed (0b42 abd 0b44)
+
+----
+
+tweak jumping more. eliminate spring jump, but allow fast jump. and require button press.
+
+basically, start at suitless y acceleration. if run is released, switch to air accel.
+
+only issue: NOT switching when it wasn't held for jump.
+
+maybe do the test for run held, and if not held and ascending, cap vertical speed to normal suitless.
+
+so:
+
+is samus ascending? is vertical speed > suitless? is run not held? then set speed to suitless jump speed. also, set y acceleration to suitless.
+
+SO:
+
+when starting jump in water, if run held, use air physics (accel + jump speed).
+
+while not on ground in water, if run is released, cap speed to suitless, and use suitless physics
+
+while ascending OR falling, if physics are suitless, and run is pressed, set speed to a downward slam, set direction to down, give samus shinespark contact dmg (like hammerball)
+
+
+require hold:
+
+$90:9C91 AD A3 9E    LDA $9EA3	;hijack this
+
+lda input, bit run.
+if 0: lda suitless speed. cmp speed. if minus, sta speed
+then do the hijacked thing.
+

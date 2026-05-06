@@ -178,17 +178,22 @@
   </UserReservedSpace>
   <ScannedFreeSpace />
   <ASMUsedSpaceBankAny>
-    <Space start="82AB56" end="82AB58" />
-    <Space start="82ABAD" end="82ABAF" />
-    <Space start="82AE95" end="82AE97" />
-    <Space start="82B43F" end="82B43F" />
-    <Space start="82DB6C" end="82DB77" />
-    <Space start="82F710" end="82F73C" />
+    <Space start="828B47" end="828B4A" />
+    <Space start="82F710" end="82F718" />
     <Space start="84C32C" end="84C32C" />
     <Space start="84C38E" end="84C38E" />
     <Space start="84C3F0" end="84C3F0" />
     <Space start="84C452" end="84C452" />
-    <Space start="91DF90" end="91DF9A" />
+    <Space start="84EFD3" end="84EFF5" />
+    <Space start="859643" end="8597ED" />
+    <Space start="899100" end="8993FF" />
+    <Space start="9090EF" end="9090F1" />
+    <Space start="909132" end="909134" />
+    <Space start="90914D" end="90914F" />
+    <Space start="909C91" end="909C93" />
+    <Space start="909E9B" end="909E9E" />
+    <Space start="90A46C" end="90A46D" />
+    <Space start="90F63A" end="90F6A4" />
   </ASMUsedSpaceBankAny>
   <PLMBank>
     <option>Default</option>

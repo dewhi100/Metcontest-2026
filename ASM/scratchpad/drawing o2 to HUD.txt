@@ -1,0 +1,19 @@
+goal: draw to the "auto" arrows on HUD- replace with o2 and a counter
+
+$809D98: draw two hud digits
+
+$80;; $9B44: handle hud tilemap
+
+LDY #$998B is the yellow autoreserve
+$9997 is the blue
+
+$80:998B
+$80:9997
+
+3C33,3C46,
+3C47,3C48,
+BC33,BC46
+
+replace top row with "o2"
+replace middle with amount
+replace bottom with blank

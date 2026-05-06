@@ -102,8 +102,8 @@ lorom
 	!WaveDashOncePerJump = 1			;|Samus must touch the ground in between wave dashes. Based on Spin Boost's code (by Oi27)
 		!MoarItemsCustomFlags = $0A1A 	;|a bitflag used if WaveDashOncePerJump is enabled. any free RAM.
 	!OverrideAura = 1					;|Suit Aura makes wavedash look ugly, so turn off aura during dash
-!HammerBall_Mccad = 0					;|while in the air in morph, hold down and press [aim down]
-	!HammerBallTriggerWithJump = 1		;|Hammerball effect triggered by the jump button
+!HammerBall_Mccad = 1					;|while in the air in morph, hold down and press [aim down]
+	!HammerBallTriggerWithJump = 0		;|Hammerball effect triggered by the jump button
 	!HammerBallRequireSpringBall = 1	;|Bundles hammerball with springball
 !GaussMissiles_Mccad = 0				;|(Much) Faster missiles, also hit harder
 	!GaussMissilesNoPLM = 0				;/Set to 1 if for some reason you plan to enable gauss missile in a non-item way
@@ -148,4 +148,4 @@ lorom
 ;Event
 !EventStation_Dewhi100 = 0
 
-!SuitlessSpaceJump_Dewhi100 = 0
+!SuitlessSpaceJump_Dewhi100 = 1

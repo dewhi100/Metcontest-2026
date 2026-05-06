@@ -10,6 +10,14 @@ incsrc "config.asm"
 incsrc "logic.asm"
 incsrc "Missile/CustomMissileDoorCaps.asm"
 
+;;;WET CONTEST ASMS;;;
+
+;incsrc "scratchpad/airTanks.asm"
+incsrc "scratchpad/gravityBoost.asm"
+;incsrc "scratchpad/pseudoGravity_Simple.asm"
+
+;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;Engine Fixes and Modifications
 

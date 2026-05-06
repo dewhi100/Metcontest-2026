@@ -277,8 +277,11 @@ if !HammerBallRequireSpringBall == 0
 else
 	LDA $09A2 : BIT #$0002 : BNE ++ : JMP EndHMB	;check for springball
 endif
-++ LDA $0AD2 : BEQ + : LDA $09A2 : BIT #$0020 : BNE + : JMP EndHMB		;if suitless, disable HB
+++ LDA $0AD2 : BEQ + : LDA $09A2 : BIT #$0020 : BNE + 
 
+LDA !VarStateHmB : BNE + ;continue if already hammerballing
+
+JMP EndHMB		;if suitless, disable HB (original code, doesnt properly handle entry into water from air.
 + : LDA !VarStateHmB : BMI ++ : CMP #$003C : BMI + ;check whether !VarStateHmB is a value from 0 to $3C (any other value is uninitialized)
 ++ LDA #$0000 : STA !VarStateHmB ;Zero out the hammerball state if its never been set
 
@@ -312,7 +315,7 @@ TAX : LDX #$9E80 : JSR LoadPal						;set palette to shinespark
 LDA #$0002 : STA $0A6E									;Set contact damage to shinespark
 LDA $0B36 : CMP #$0002 : BEQ EndHMB					;If samus's state is falling down branch out
 StopHMB: STZ $0B3F : LDA #$003C : STA !VarStateHmB	;Otherwise, clear bluesuit and set the State var to 8 (cooldown of 6 frames)
-JSL $91DEBA												;Reload the suit palette
+print "hamerball reset palette: ", pc : JSL $91DEBA												;Reload the suit palette
 LDA $0Af6 : STA $0AB0 : STA $0AB2 : STA $12			;Move echoes to samus
 LDA $0AFA : STA $0AB8 : STA $0ABA	 : STA $14			;Move echoes to samus
 STZ $0AC0 : STZ $0AC2									;Zero echo speed
